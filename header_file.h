@@ -6,10 +6,11 @@
 #define LABA6_VAR26_HEADER_FILE_H
 
 /*
- * 26. ���� ������� B �� N ����� � N ��������. ���� � ������� B ������� � ������������ ���������
-(����� ���� ��������� ���� �������) ����� �� ������� ���������, ��������� ��������� ���������
-������������������ �1, �2, ..., �N �������� ��������� �������, ������� ���� ������� ���������,
-� ��������� ��������� ���� ������������������ � �������� ������ ��������� �������.
+ *26. Дана матрица B из N строк и N столбцов. Если в матрице B элемент с максимальным значением
+(среди всех элементов этой матрицы) лежит на главной диагонали, присвоить начальным элементам
+последовательности С1, С2, ..., СN
+2 значения элементов матрицы, лежащих выше главной диагонали,
+а остальным элементам этой последовательности – значения прочих элементов матрицы.
  */
 
 #include <iostream>
@@ -41,7 +42,7 @@ void InputedMatrix(int n,int **A, ofstream& output_file )
 bool isMaxOnMainDiag(int n, int** A)
 {
     bool t = false;
-    int max = A[0][0];
+    int max = A[0][1];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if( A[i][j] >= max && i==j)
@@ -59,11 +60,21 @@ void makeMagic(int n,int** B, ofstream& output_file)
 
     int* C = new int[n];
     int k=0;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == j) {
+                C[k] = B[i][j];
+                k++;
+            }
+        }
+    }
+
     for (int i = 0; i <n-1 ; i++)
     {
         for (int j = i+1; j <n ; j++)
         {
-            C[k] =B[i][j];
+            C[k] = B[i][j];
             k++;
         }
     }
@@ -72,6 +83,7 @@ void makeMagic(int n,int** B, ofstream& output_file)
     {
         for (int j = 0; j <i ; ++j)
         {
+
             C[k] =B[i][j];
             k++;
         }
@@ -79,11 +91,11 @@ void makeMagic(int n,int** B, ofstream& output_file)
 
     output_file << "\n\nNew Massiv " << endl;
 
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i <k; i++) {
         output_file << setw(5) << C[i] << endl;
     }
 
-    //delete[] C;
+
 }
 
 #endif //LABA6_VAR26_HEADER_FILE_H
